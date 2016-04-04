@@ -442,8 +442,9 @@ namespace Tsukikage.SharpJson
                 else if (input[i] == '\r') sb.Append("\\r");
                 else if (input[i] == '\t') sb.Append("\\t");
                 else if (input[i] == '\"') sb.Append("\\\"");
-                else if (input[i] == '<') sb.Append("\\<");
-                else if (input[i] == '>') sb.Append("\\>");
+                else if (input[i] == '<') sb.Append("\\u003C");
+                else if (input[i] == '>') sb.Append("\\u003E");
+                else if (input[i] < 0x20 || input[i] == 0x7F) sb.Append(string.Format("\\u{0:X4}", (int)input[i]));
                 //else if (input[i] > 127) sb.Append(string.Format("\\u{0:X4}", (int)input[i]));
                 else sb.Append(input[i]);
 
@@ -874,11 +875,11 @@ namespace Tsukikage.SharpJson
                             case '\'': sb.Append('\''); break;
                             case '<': sb.Append('<'); break;
                             case '>': sb.Append('>'); break;
-                            case 'u':
-                                int u = Hex(cur);
-                                u = u * 16 + Hex(cur);
-                                u = u * 16 + Hex(cur);
-                                u = u * 16 + Hex(cur);
+                            case 'u': Next();
+                                int u = Hex(cur); Next();
+                                u = u * 16 + Hex(cur); Next();
+                                u = u * 16 + Hex(cur); Next();
+                                u = u * 16 + Hex(cur); 
                                 sb.Append((char)u);
                                 break;
                         }
