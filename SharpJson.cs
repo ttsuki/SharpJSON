@@ -28,26 +28,27 @@ namespace Tsukikage.SharpJson
         [FieldOffset(0)]
         private VarType type;
 
-        [FieldOffset(4)]
-        private object asObject;
-
-        [FieldOffset(4)]
-        private VarList asList;
-
-        [FieldOffset(4)]
-        private VarDictionary asDictionary;
-
-        [FieldOffset(4)]
-        private string asString;
-
-        [FieldOffset(4)]
-        private byte[] asByteArray;
-
-        [FieldOffset(12)]
+        [FieldOffset(8)]
         private bool asBool;
 
-        [FieldOffset(12)]
+        [FieldOffset(8)]
         private long asInt;
+
+        [FieldOffset(16)]
+        private object asObject;
+
+        [FieldOffset(16)]
+        private VarList asList;
+
+        [FieldOffset(16)]
+        private VarDictionary asDictionary;
+
+        [FieldOffset(16)]
+        private string asString;
+
+        [FieldOffset(16)]
+        private byte[] asByteArray;
+
 
         /// <summary>
         /// サポートしている型
@@ -84,7 +85,7 @@ namespace Tsukikage.SharpJson
         public VarList AsList { get { return (VarList)this; } }
         public VarDictionary AsDictionary { get { return (VarDictionary)this; } }
 
-        public static implicit operator bool(Var v)
+        public static implicit operator bool (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(bool);
             if (v.IsBoolean) return v.asBool;
@@ -98,7 +99,7 @@ namespace Tsukikage.SharpJson
             throw new InvalidCastException("Var[" + v.type + "]型からbool型への変換はサポートしません。");
         }
 
-        public static implicit operator int(Var v)
+        public static implicit operator int (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(int);
             if (v.IsInt) return (int)v.asInt;
@@ -109,7 +110,7 @@ namespace Tsukikage.SharpJson
             throw new InvalidCastException("Var[" + v.type + "]型からint型への変換はサポートしません。");
         }
 
-        public static implicit operator long(Var v)
+        public static implicit operator long (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(int);
             if (v.IsInt) return v.asInt;
@@ -120,7 +121,7 @@ namespace Tsukikage.SharpJson
             throw new InvalidCastException("Var[" + v.type + "]型からlong型への変換はサポートしません。");
         }
 
-        public static implicit operator double(Var v)
+        public static implicit operator double (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(int);
             if (v.IsInt) return v.asInt;
@@ -131,7 +132,7 @@ namespace Tsukikage.SharpJson
             throw new InvalidCastException("Var[" + v.type + "]型からdouble型への変換はサポートしません。");
         }
 
-        public static implicit operator string(Var v)
+        public static implicit operator string (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(string);
             if (v.IsString) return v.asString;
@@ -141,7 +142,7 @@ namespace Tsukikage.SharpJson
             throw new InvalidCastException("Var[" + v.type + "]型からstring型への変換はサポートしません。");
         }
 
-        public static implicit operator byte[](Var v)
+        public static implicit operator byte[] (Var v)
         {
             if (v.IsNull || v.IsUndefined) return default(byte[]);
             if (v.IsBinary) return v.asByteArray;
@@ -272,9 +273,9 @@ namespace Tsukikage.SharpJson
         {
             long value;
             public VarInt(long value) { this.value = value; }
-            public static implicit operator int(VarInt v) { return (int)v.value; }
-            public static implicit operator long(VarInt v) { return v.value; }
-            public static implicit operator double(VarInt v) { return v.value; }
+            public static implicit operator int (VarInt v) { return (int)v.value; }
+            public static implicit operator long (VarInt v) { return v.value; }
+            public static implicit operator double (VarInt v) { return v.value; }
             public static implicit operator Var(VarInt v) { return new Var(v.value); }
             public static implicit operator VarInt(long v) { return new VarInt(v); }
         }
@@ -283,7 +284,7 @@ namespace Tsukikage.SharpJson
         {
             bool value;
             public VarBool(bool value) { this.value = value; }
-            public static implicit operator bool(VarBool v) { return v.value; }
+            public static implicit operator bool (VarBool v) { return v.value; }
             public static implicit operator Var(VarBool v) { return new Var(v.value); }
             public static implicit operator VarBool(bool v) { return new VarBool(v); }
         }
@@ -331,7 +332,7 @@ namespace Tsukikage.SharpJson
 #endif
             throw new NotImplementedException(a.type + "型に" + b.type + "型を^できません。");
         }
- 
+
         public override int GetHashCode()
         {
             if (IsNull) return 0;
@@ -373,25 +374,25 @@ namespace Tsukikage.SharpJson
         // From bool[]
         public static implicit operator Var(bool[] array)
         {
-            return new VarList(Array.ConvertAll<bool, Var>(array, delegate(bool v) { return v; }));
+            return new VarList(Array.ConvertAll<bool, Var>(array, delegate (bool v) { return v; }));
         }
 
         // From int[]
         public static implicit operator Var(int[] array)
         {
-            return new VarList(Array.ConvertAll<int, Var>(array, delegate(int v) { return v; }));
+            return new VarList(Array.ConvertAll<int, Var>(array, delegate (int v) { return v; }));
         }
 
         // From long[]
         public static implicit operator Var(long[] array)
         {
-            return new VarList(Array.ConvertAll<long, Var>(array, delegate(long v) { return v; }));
+            return new VarList(Array.ConvertAll<long, Var>(array, delegate (long v) { return v; }));
         }
 
         // From string[]
         public static implicit operator Var(string[] array)
         {
-            return new VarList(Array.ConvertAll<string, Var>(array, delegate(string v) { return v; }));
+            return new VarList(Array.ConvertAll<string, Var>(array, delegate (string v) { return v; }));
         }
 
         // From Var[]
@@ -401,31 +402,31 @@ namespace Tsukikage.SharpJson
         }
 
         // To bool[]
-        public static implicit operator bool[](Var array)
+        public static implicit operator bool[] (Var array)
         {
-            return Array.ConvertAll<Var, bool>(array.AsList.ToArray(), delegate(Var v) { return v; });
+            return Array.ConvertAll<Var, bool>(array.AsList.ToArray(), delegate (Var v) { return v; });
         }
 
         // To int[]
-        public static implicit operator int[](Var array)
+        public static implicit operator int[] (Var array)
         {
-            return Array.ConvertAll<Var, int>(array.AsList.ToArray(), delegate(Var v) { return v; });
+            return Array.ConvertAll<Var, int>(array.AsList.ToArray(), delegate (Var v) { return v; });
         }
 
         // To long[]
-        public static implicit operator long[](Var array)
+        public static implicit operator long[] (Var array)
         {
-            return Array.ConvertAll<Var, long>(array.AsList.ToArray(), delegate(Var v) { return v; });
+            return Array.ConvertAll<Var, long>(array.AsList.ToArray(), delegate (Var v) { return v; });
         }
 
         // To string[]
-        public static implicit operator string[](Var array)
+        public static implicit operator string[] (Var array)
         {
-            return Array.ConvertAll<Var, string>(array.AsList.ToArray(), delegate(Var v) { return v; });
+            return Array.ConvertAll<Var, string>(array.AsList.ToArray(), delegate (Var v) { return v; });
         }
 
         // To Var[]
-        public static implicit operator Var[](Var array)
+        public static implicit operator Var[] (Var array)
         {
             return array.AsList.ToArray();
         }
@@ -635,7 +636,7 @@ namespace Tsukikage.SharpJson
                 Assert(cur != '\0');
                 switch (cur)
                 {
-                    case '0': 
+                    case '0':
                     case '1':
                     case '2':
                     case '3':
@@ -875,11 +876,12 @@ namespace Tsukikage.SharpJson
                             case '\'': sb.Append('\''); break;
                             case '<': sb.Append('<'); break;
                             case '>': sb.Append('>'); break;
-                            case 'u': Next();
+                            case 'u':
+                                Next();
                                 int u = Hex(cur); Next();
                                 u = u * 16 + Hex(cur); Next();
                                 u = u * 16 + Hex(cur); Next();
-                                u = u * 16 + Hex(cur); 
+                                u = u * 16 + Hex(cur);
                                 sb.Append((char)u);
                                 break;
                         }
@@ -1003,6 +1005,6 @@ namespace Tsukikage.SharpJson
                 base[key] = value;
             }
         }
-        public static Var FromFormattedString(string serialized){ return Var.FromFormattedString(serialized);}
+        public static Var FromFormattedString(string serialized) { return Var.FromFormattedString(serialized); }
     }
 }
